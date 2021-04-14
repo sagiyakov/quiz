@@ -1,20 +1,4 @@
-let data = [
-    {
-        question: '1+1',
-        answers: [1, 2, 3, 4, 6, 8, 6, 5, 45, 67],
-        correct: 1
-    },
-    {
-        question: '2+2',
-        answers: [5, 52, 12, 4],
-        correct: 3
-    },
-    {
-        question: '3+3',
-        answers: [755, 6, 34545, 8],
-        correct: 3
-    }
-]
+let data = [];
 
 var question = new Vue({
     el: '#question',
@@ -30,8 +14,6 @@ var answers = new Vue({
     }
 })
 
-let questionIdx = 0;
-
 const showQuestion = (idx) => {
     question.text = data[idx].question;
     answers.answers = data[idx].answers
@@ -39,29 +21,38 @@ const showQuestion = (idx) => {
 
 var navigation = new Vue({
     el: '#navigation',
-    // data: {
-    //   answers: []
-    // }
+    data: {
+        answers: [],
+        questionIdx: 0
+    },
+    computed: {
+        isPrevDisabled: () => {
+            return this.questionIdx == 0;
+        },
+        isNextDisabled: () => {
+            return this.questionIdx == data.length - 1;
+        }
+    },
     methods: {
         nextQuestion: () => {
-            if(questionIdx < data.length - 1){
-                questionIdx++;
-                showQuestion(questionIdx);
-            }
+            navigation.questionIdx++;
+            showQuestion(navigation.questionIdx);
         },
         prevQuestion: () => {
-            if(questionIdx > 0){
-                questionIdx--;
-                showQuestion(questionIdx);
-        
-            }
+            navigation.questionIdx--;
+            showQuestion(navigation.questionIdx);
         }
-            
+
     }
 
 })
 
 
+const init = async () => {
+    const res = await axios.get('/api/questions');
+    data = res.data.questions;
+    showQuestion(0);
+}
 
+init();
 
-showQuestion(questionIdx);
