@@ -44,14 +44,21 @@ var navigation = new Vue({
     // }
     methods: {
         nextQuestion: () => {
-            questionIdx++;
-            showQuestion(questionIdx);
+            if(questionIdx < data.length - 1){
+                questionIdx++;
+                showQuestion(questionIdx);
+            }
         },
         prevQuestion: () => {
-            questionIdx--;
-            showQuestion(questionIdx);
+            if(questionIdx > 0){
+                questionIdx--;
+                showQuestion(questionIdx);
+        
+            }
         }
+            
     }
+
 })
 
 
