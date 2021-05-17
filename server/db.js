@@ -14,9 +14,10 @@ const connect = async () => {
     QuestionModel = mongoose.model('Question', new mongoose.Schema({
         question: String,
         answers: [],
-        correct: Number
+        correct: Number,
     }));
 }
+
 
 module.exports = {
     addQuestion: async question => {
