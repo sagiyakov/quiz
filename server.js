@@ -13,14 +13,22 @@ const run = async () => {
         const questions = await db.getQuestions();
         res.send({questions})
     })
+
+    app.get('/api/players', async (req, res) => {
+      const questions = await db.getPlayers();
+      res.send({players})
+  })
     
     app.listen(port, () => {
       console.log(`Example app listening at ${port}`);
     });
-
+    
+    app.post('/api/questions', (req, res) => {
+      console.log('Hello!')
+    })
     // db.addQuestion({
-    //     question: '77+77',
-    //     answers:[5454,54546, 154],
+    //     question: '12+2',
+    //     answers:[43,112, 14,56],
     //     correct: 2
     // })
 }

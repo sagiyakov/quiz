@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@1.5.14/dist/vuetify.min.js"></script>
+
+</head>
+<body>
+    <div id="addQestion">
+        <h1>Please enter your question</h1>
+        <input type="text" id="question"><br><br>
+    </div>
+    <div id="app">
+        <v-app id="inspire">
+          <v-layout justify-center>
+            <v-flex>
+              <v-btn color="primary" @click="dialog=!dialog"> Click Me </v-btn>
+            </v-flex>
+          </v-layout>
+          <v-dialog v-model="dialog" width=350>
+            <v-card>
+              <v-card-title primary-title>
+                Create Array
+              </v-card-title>
+              <v-card-text>
+                <span class="title">Please add optional answer </span>
+                <v-layout justify-center>
+                  <v-flex xs11>
+                    <v-text-field v-model="inputValue"></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+              <v-card-actions class="mt-5">
+                <v-spacer></v-spacer>
+                <v-btn @click="closeDialog">CLOSE</v-btn>
+                <v-btn @click="createArray" :disabled="this.inputValue === ''" color="primary">add</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </v-app>
+      </div>
+      <div id="Correct">
+        <h1>The number of the correct answer is:  </h1>
+        <input type="number" id="correctAns" name="coorrectAns">    </div>
+    <script src="add.js "></script>
+</body>
+</html>

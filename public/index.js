@@ -1,11 +1,12 @@
 let data = [];
-
+let score = Number;
 
 var navigation = new Vue({
     el: '#navigation',
     data: {
         answers: [],
-        questionIdx: 0
+        questionIdx: 0,
+     //   score: 0,
     },
     computed: {
         isPrevDisabled: function() {
@@ -14,6 +15,7 @@ var navigation = new Vue({
         isNextDisabled: function () {
             return this.questionIdx == data.length - 1;
         }
+        
     },
     methods: {
         nextQuestion: () => {
@@ -25,21 +27,30 @@ var navigation = new Vue({
             showQuestion(navigation.questionIdx);
         },
         finish: () => {
-            showResult(showCorrect(1));
+            calcScores();
         }
 
     }
 
 })
 
+var player = new Vue ({
 
+    el: 'player',
+    data:{
+        name: String,
+        password: String,
+        totalScore: Number
+    }
+
+})
 var question = new Vue({
     el: '#question',
     data: {
         text: '',
         answers: [],
         picked: null,
-        player: []
+        correct: Number,
     },
     watch: {
         picked: val => {
@@ -48,31 +59,36 @@ var question = new Vue({
     }
 
 });
-var correct = new Vue({
-    el: '#correct',
-    data: {
-        correctAns: Number
-    }
-})
+
 const showQuestion = (idx) => {
-    question.text = data[idx].question;
+    question.text = "Question Number "+ (idx+1) +":" + data[idx].question;
     question.answers = data[idx].answers;
     question.picked = data[idx].picked;
-    correct.correctAns = data[idx].correct;
-
+    question.correct = data[idx].correct;
 }
 
 
-const showResult = (num) => {
-    var result = num;
-    document.write(result);
+const startGame = (name,password) => {
+    player.name = name;
+    player.password = password;
+}
+
+const calcScores =  () => {
+    score = 0;
+    for (let i = 0; i < data.length; i++) { 
+    if (data[i].picked == data[i].correct) {
+        score++;
+   } }
+    document.write(score+" out of "+data.length + " questions ");
+
 }
 
 const init = async () => {
     const res = await axios.get('/api/questions');
     data = res.data.questions;
     showQuestion(0);
-    showCorrect(0);
+    //showCorrect(0);
+   // alert(question.correct);
 }
 
 init();
